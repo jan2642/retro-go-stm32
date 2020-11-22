@@ -298,6 +298,7 @@ void app_main(void)
         {
             skipFrames--;
         }
+        skipFrames = 0; // HACK
 
         // Tick before submitting audio/syncing
         odroid_system_tick(!drawFrame, fullFrame, get_elapsed_time_since(startTime));

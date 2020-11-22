@@ -142,7 +142,7 @@ static inline uint get_frame_time(uint refresh_rate)
 static inline uint get_elapsed_time()
 {
      // uint now = xthal_get_ccount();
-     return (uint)HAL_GetTick(); // uint is plenty resolution for us
+     return (uint)HAL_GetTick() * 1000; // uint is plenty resolution for us
 }
 
 static inline uint get_elapsed_time_since(uint start)

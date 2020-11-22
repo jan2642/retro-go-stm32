@@ -130,7 +130,12 @@
 #define INLINE static inline
 
 #if VERBOSE
-#define LOG(x)  logerror x
+#define LOG(...)  printf(__VA_ARGS__)
+
+int cpu_getactivecpu() {
+  return 0;
+}
+
 #else
 #define LOG(x)
 #endif
@@ -2559,7 +2564,7 @@ void z80_exit(void)
 /****************************************************************************
  * Execute 'cycles' T-states. Return number of T-states really executed
  ****************************************************************************/
-int z80_execute(int cycles)
+IRAM_ATTR int z80_execute(int cycles)
 {
   z80_ICount = cycles;
   z80_requested_cycles = z80_ICount;

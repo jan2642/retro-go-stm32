@@ -117,6 +117,12 @@ void system_frame(int skip)
 
     /* Run sound chips */
     sound_update(vdp.line);
+
+    // for (uint32_t i = 0; i < sizeof(audiobuffer) / sizeof(audiobuffer[0]); i++) {
+    //   audiobuffer[i] = (i % (48000 / 500)) > 48 ? 200 : -200;
+    // }
+    // HAL_SAI_Transmit_DMA(&hsai_BlockA1, audiobuffer, sizeof(audiobuffer) / sizeof(audiobuffer[0]));
+
   }
 
   /* Adjust Z80 cycle count for next frame */
