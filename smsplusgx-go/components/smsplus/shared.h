@@ -9,6 +9,9 @@ typedef signed char int8;
 typedef signed short int int16;
 typedef signed long int int32;
 
+
+#include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -17,8 +20,7 @@ typedef signed long int int32;
 #include <malloc.h>
 #include <math.h>
 #include <limits.h>
-//#include <zlib.h>
-#include <esp_attr.h>
+#include <porting.h>
 
 #ifndef PATH_MAX
 #ifdef  MAX_PATH
