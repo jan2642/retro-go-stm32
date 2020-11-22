@@ -134,10 +134,11 @@ static uint32 atex[4] =
 };
 
 /* Pixel look-up table */
-static const uint8 *lut; // )[0x10000];
+// static const uint8 *lut; // )[0x10000];
+static uint8 lut[0x10000] __attribute__((section (".emulator_data")));
 
 /* Bitplane to packed pixel LUT */
-static const uint32 *bp_lut; // 0x10000
+static uint32 bp_lut[0x10000]  __attribute__((section (".emulator_data")));
 
 static inline void parse_satb(int line);
 
@@ -210,7 +211,7 @@ void render_init(void)
   make_tms_tables();
 
   /* Generate 64k of data for the look up table */
-  uint8 *_lut = malloc(0x10000);
+  // uint8 *_lut = malloc(0x10000);
 
   for(bx = 0; bx < 0x100; bx++)
   {
@@ -274,14 +275,14 @@ void render_init(void)
       }
 
       /* Store result */
-      _lut[(bx << 8) | (sx)] = c;
+      lut[(bx << 8) | (sx)] = c;
     }
   }
-  lut = _lut;
+  // lut = _lut;
 
 
   /* Make bitplane to pixel lookup table */
-  uint32 *_bp_lut = malloc(0x10000 * 4);
+  // uint32 *_bp_lut = malloc(0x10000 * 4);
 
   for(i = 0; i < 0x100; i++)
   for(j = 0; j < 0x100; j++)
@@ -294,12 +295,12 @@ void render_init(void)
       out |= (i & (0x80 >> x)) ? (uint32)(4 << (x << 2)) : 0;
     }
 #if IS_LITTLE_ENDIAN
-    _bp_lut[(j << 8) | (i)] = out;
+    bp_lut[(j << 8) | (i)] = out;
 #else
-    _bp_lut[(i << 8) | (j)] = out;
+    bp_lut[(i << 8) | (j)] = out;
 #endif
   }
-  bp_lut = _bp_lut;
+  // bp_lut = _bp_lut;
 
   sms_cram_expand_table[0] =  0;
   sms_cram_expand_table[1] = (5 << 3)  + (1 << 2);

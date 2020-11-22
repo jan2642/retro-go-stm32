@@ -219,8 +219,8 @@ static UINT8 SZP[256];      /* zero, sign and parity flags */
 static UINT8 SZHV_inc[256]; /* zero, sign, half carry and overflow flags INC r8 */
 static UINT8 SZHV_dec[256]; /* zero, sign, half carry and overflow flags DEC r8 */
 
-static UINT8 *SZHVC_add = 0;
-static UINT8 *SZHVC_sub = 0;
+static UINT8 SZHVC_add[2*256*256] __attribute__((section (".emulator_data")));
+static UINT8 SZHVC_sub[2*256*256] __attribute__((section (".emulator_data")));
 
 DRAM_ATTR static const UINT8 cc[6][0x100] = {
   { // Z80_TABLE_op
@@ -2445,13 +2445,13 @@ void z80_init(int index, int clock, const void *config, int (*irqcallback)(int))
   {
     int oldval, newval, val;
     UINT8 *padd, *padc, *psub, *psbc;
-    /* allocate big flag arrays once */
-    SZHVC_add = (UINT8 *)malloc(2*256*256);
-    SZHVC_sub = (UINT8 *)malloc(2*256*256);
-    if( !SZHVC_add || !SZHVC_sub )
-    {
-      return;
-    }
+    // /* allocate big flag arrays once */
+    // SZHVC_add = (UINT8 *)malloc(2*256*256);
+    // SZHVC_sub = (UINT8 *)malloc(2*256*256);
+    // if( !SZHVC_add || !SZHVC_sub )
+    // {
+    //   return;
+    // }
     padd = &SZHVC_add[  0*256];
     padc = &SZHVC_add[256*256];
     psub = &SZHVC_sub[  0*256];
@@ -2550,10 +2550,10 @@ void z80_reset(void)
 
 void z80_exit(void)
 {
-  if (SZHVC_add) free(SZHVC_add);
-  SZHVC_add = NULL;
-  if (SZHVC_sub) free(SZHVC_sub);
-  SZHVC_sub = NULL;
+  // if (SZHVC_add) free(SZHVC_add);
+  // SZHVC_add = NULL;
+  // if (SZHVC_sub) free(SZHVC_sub);
+  // SZHVC_sub = NULL;
 }
 
 /****************************************************************************
