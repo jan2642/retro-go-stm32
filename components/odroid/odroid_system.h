@@ -5,7 +5,7 @@
 #if !defined(ESP_IDF_VERSION_MAJOR)
 
 #include "shared.h"
-#include "stm32h7xx_hal.h"
+#include "porting.h"
 
 #else
 
