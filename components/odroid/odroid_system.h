@@ -4,7 +4,7 @@
 
 #if !defined(ESP_IDF_VERSION_MAJOR)
 
-#include "shared.h"
+// #include "shared.h"
 #include "porting.h"
 
 #else
