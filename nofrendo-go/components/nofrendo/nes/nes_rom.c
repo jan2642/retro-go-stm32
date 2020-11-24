@@ -33,6 +33,7 @@
 #include "nes.h"
 #include <osd.h>
 
+rominfo_t rominfo_data;
 
 #ifdef USE_SRAM_FILE
 
@@ -130,9 +131,10 @@ rominfo_t *rom_load(const char *filename)
    unsigned char *rom, *rom_ptr;
    size_t filesize;
 
-   rominfo = calloc(sizeof(rominfo_t), 1);
-   if (NULL == rominfo)
-      goto _fail;
+   // rominfo = calloc(sizeof(rominfo_t), 1);
+   rominfo = &rominfo_data;
+   // if (NULL == rominfo)
+   //    goto _fail;
 
    filesize = osd_getromdata(&rom);
    if (NULL == rom)
