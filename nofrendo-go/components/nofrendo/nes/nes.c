@@ -31,9 +31,12 @@
 
 #define NES_OVERDRAW (8)
 
-static uint8_t framebuffer_data[2][(NES_SCREEN_WIDTH + NES_OVERDRAW) * NES_SCREEN_HEIGHT];
 // static bitmap_t *framebuffers[2];
-static bitmap_t framebuffers[2];
+
+// static uint8_t framebuffer_data[2][(NES_SCREEN_WIDTH + NES_OVERDRAW) * NES_SCREEN_HEIGHT];
+DRAM_ATTR static uint8_t framebuffer_data[2][(NES_SCREEN_WIDTH + NES_OVERDRAW * 2) * NES_SCREEN_HEIGHT];
+DRAM_ATTR static uint8_t bitmap_data[2][sizeof(bitmap_t) + (sizeof(uint8 *) * NES_SCREEN_HEIGHT)];
+static bitmap_t *framebuffers[2];
 static nes_t nes;
 
 
@@ -100,7 +103,7 @@ void nes_emulate(void)
       if (nes.drawframe)
       {
          osd_blitscreen(nes.vidbuf);
-         nes.vidbuf = (nes.vidbuf == &framebuffers[1]) ? &framebuffers[0] : &framebuffers[1];
+         nes.vidbuf = (nes.vidbuf == framebuffers[1]) ? framebuffers[0] : framebuffers[1];
       }
 
       osd_audioframe(audioSamples);
@@ -178,7 +181,7 @@ void nes_reset(reset_type_t reset_type)
    mmc_reset();
    nes6502_reset();
 
-   nes.vidbuf = &framebuffers[0];
+   nes.vidbuf = framebuffers[0];
    nes.scanline = 241;
    nes.cycles = 0;
 
@@ -253,8 +256,10 @@ int nes_init(region_t region, int sample_rate)
    //    goto _fail;
 
    int overdraw = 8;
-   bmp_init(&framebuffers[0], 0, NES_SCREEN_WIDTH, NES_SCREEN_HEIGHT, NES_OVERDRAW);
-   bmp_init(&framebuffers[1], 1, NES_SCREEN_WIDTH, NES_SCREEN_HEIGHT, NES_OVERDRAW);
+   framebuffers[0] = (bitmap_t*)bitmap_data[0];
+   framebuffers[1] = (bitmap_t*)bitmap_data[1];
+   bmp_init(framebuffers[0], 0, NES_SCREEN_WIDTH, NES_SCREEN_HEIGHT, NES_OVERDRAW);
+   bmp_init(framebuffers[1], 1, NES_SCREEN_WIDTH, NES_SCREEN_HEIGHT, NES_OVERDRAW);
 
    /* memory */
    nes.mem = mem_create();
