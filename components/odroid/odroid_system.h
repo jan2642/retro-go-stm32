@@ -136,13 +136,13 @@ void odroid_system_spi_lock_release(spi_lock_res_t);
 static inline uint get_frame_time(uint refresh_rate)
 {
      // return (CONFIG_ESP32_DEFAULT_CPU_FREQ_MHZ * 1000000) / refresh_rate
-     return 1000000 / refresh_rate;
+     return (uint)(1000 / refresh_rate + 0.5f);
 }
 
 static inline uint get_elapsed_time()
 {
      // uint now = xthal_get_ccount();
-     return (uint)HAL_GetTick() * 1000; // uint is plenty resolution for us
+     return (uint)HAL_GetTick(); // uint is plenty resolution for us
 }
 
 static inline uint get_elapsed_time_since(uint start)
