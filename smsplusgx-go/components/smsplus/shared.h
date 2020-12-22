@@ -18,7 +18,8 @@ typedef signed long int int32;
 #include <math.h>
 #include <limits.h>
 //#include <zlib.h>
-#include <esp_attr.h>
+//#include <esp_attr.h>
+#include <porting.h>
 
 #ifndef PATH_MAX
 #ifdef  MAX_PATH

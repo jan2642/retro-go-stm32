@@ -210,7 +210,8 @@ void render_init(void)
   make_tms_tables();
 
   /* Generate 64k of data for the look up table */
-  uint8 *_lut = malloc(0x10000);
+  //uint8 *_lut = malloc(0x10000);
+  static uint8 _lut[0x10000] __attribute__((section (".emulator_data")));
 
   for(bx = 0; bx < 0x100; bx++)
   {
@@ -281,7 +282,8 @@ void render_init(void)
 
 
   /* Make bitplane to pixel lookup table */
-  uint32 *_bp_lut = malloc(0x10000 * 4);
+  //uint32 *_bp_lut = malloc(0x10000 * 4);
+  static uint32 *_bp_lut[0x10000] __attribute__((section (".emulator_data")));
 
   for(i = 0; i < 0x100; i++)
   for(j = 0; j < 0x100; j++)

@@ -94,10 +94,13 @@ int sound_init(void)
     smptab[i] = (int)calc;
   }
 
+  static uint8 streams[2][2000] __attribute__((section (".emulator_data")));
+
   /* Allocate emulated sound streams */
   for(i = 0; i < STREAM_MAX; i++)
   {
-    snd.stream[i] = calloc(snd.buffer_size, 1);
+    //snd.stream[i] = calloc(snd.buffer_size, 1);
+    snd.stream[i] = streams[i];
     if(!snd.stream[i]) abort();
   }
 
